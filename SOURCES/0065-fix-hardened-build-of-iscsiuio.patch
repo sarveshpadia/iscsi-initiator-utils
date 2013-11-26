@@ -1,0 +1,62 @@
+From 436ac9074def43ae09d7ecc28eec6cdc77a9d0e2 Mon Sep 17 00:00:00 2001
+From: Chris Leech <cleech@redhat.com>
+Date: Fri, 13 Sep 2013 16:56:51 -0700
+Subject: [PATCH 65/65] fix hardened build of iscsiuio
+
+The new iscsiuio code sets CFLAGS in configure.ac, wiping out the
+environment setup by rpm.  Patch that out.
+
+Also fix local build when iscsi-initiator-utils is installed, but having
+the check to prevent overwriting configuration files during install look
+in DESTDIR.
+---
+ Makefile              | 2 +-
+ iscsiuio/configure    | 2 +-
+ iscsiuio/configure.ac | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ mode change 100644 => 100755 iscsiuio/configure
+
+diff --git a/Makefile b/Makefile
+index 02346bf..172d30e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -123,7 +123,7 @@ install_iface: $(IFACEFILES)
+ 	$(INSTALL) -m 644 $^ $(DESTDIR)$(etcdir)/iscsi/ifaces
+ 
+ install_etc: $(ETCFILES)
+-	if [ ! -f /etc/iscsi/iscsid.conf ]; then \
++	if [ ! -f $(DESTDIR)$(etcdir)/iscsi/iscsid.conf ]; then \
+ 		$(INSTALL) -d $(DESTDIR)$(etcdir)/iscsi ; \
+ 		$(INSTALL) -m 644 $^ $(DESTDIR)$(etcdir)/iscsi ; \
+ 	fi
+diff --git a/iscsiuio/configure b/iscsiuio/configure
+old mode 100644
+new mode 100755
+index 2740598..cd13f92
+--- a/iscsiuio/configure
++++ b/iscsiuio/configure
+@@ -21288,7 +21288,7 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
+ 
+ 
+ 
+-CFLAGS="-O2 -Wall"
++CFLAGS="${CFLAGS} -O2 -Wall"
+ ## check for --enable-debug first before checking CFLAGS before
+ ## so that we don't mix -O and -g
+ # Check whether --enable-debug or --disable-debug was given.
+diff --git a/iscsiuio/configure.ac b/iscsiuio/configure.ac
+index e9a5e32..d9a6bdb 100644
+--- a/iscsiuio/configure.ac
++++ b/iscsiuio/configure.ac
+@@ -52,7 +52,7 @@ AC_LIBTOOL_DLOPEN
+ # libtool stuff
+ AC_PROG_LIBTOOL
+ 
+-CFLAGS="-O2 -Wall"
++CFLAGS="${CFLAGS} -O2 -Wall"
+ ## check for --enable-debug first before checking CFLAGS before
+ ## so that we don't mix -O and -g
+ AC_ARG_ENABLE(debug,
+-- 
+1.8.1.4
+

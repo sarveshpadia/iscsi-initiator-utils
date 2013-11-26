@@ -1,0 +1,76 @@
+From cdb98072f7690cd9f5ec4aa5aa503711e552b5da Mon Sep 17 00:00:00 2001
+From: Chris Leech <cleech@redhat.com>
+Date: Tue, 13 Aug 2013 12:39:07 -0700
+Subject: idbw_rec_write, pick tpgt from existing record
+
+On a static add (-m node -o new) without a user specified tpgt, looks
+for existing new style records with tpgt before creating an old style
+record without.  If one exists, take the tpgt from it an write an
+updated new style record instead.
+---
+ usr/idbm.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/usr/idbm.c b/usr/idbm.c
+index cb6ffd1..5adbd95 100644
+--- a/usr/idbm.c
++++ b/usr/idbm.c
+@@ -27,6 +27,7 @@
+ #include <errno.h>
+ #include <dirent.h>
+ #include <limits.h>
++#include <glob.h>
+ #include <sys/stat.h>
+ #include <sys/file.h>
+ 
+@@ -1884,12 +1885,47 @@ static int idbm_rec_write_old(node_rec_t *rec)
+ 	FILE *f;
+ 	char *portal;
+ 	int rc = 0;
++	glob_t globbuf;
++	int i;
++	int tpgt = PORTAL_GROUP_TAG_UNKNOWN;
+ 
+ 	portal = malloc(PATH_MAX);
+ 	if (!portal) {
+ 		log_error("Could not alloc portal\n");
+ 		return ISCSI_ERR_NOMEM;
+ 	}
++
++	/* check for newer portal dir with tpgt */
++	snprintf(portal, PATH_MAX, "%s/%s/%s,%d,*", NODE_CONFIG_DIR,
++		 rec->name, rec->conn[0].address, rec->conn[0].port);
++	rc = glob(portal, GLOB_ONLYDIR, NULL, &globbuf);
++	if (!rc) {
++		if (globbuf.gl_pathc > 1)
++			log_warning("multiple tpg records for portal "
++				    "%s/%s:%d found", rec->name,
++				    rec->conn[0].address, rec->conn[0].port);
++		/* set pattern for sscanf matching of tpgt */
++		snprintf(portal, PATH_MAX, "%s/%s/%s,%d,%%u", NODE_CONFIG_DIR,
++			 rec->name, rec->conn[0].address, rec->conn[0].port);
++		for (i = 0; i < globbuf.gl_pathc; i++) {
++			rc = sscanf(globbuf.gl_pathv[i], portal, &tpgt);
++			if (rc == 1)
++				break;
++		}
++		if (tpgt == PORTAL_GROUP_TAG_UNKNOWN)
++			log_warning("glob match on existing records, "
++				    "but no valid tpgt found");
++	}
++	globfree(&globbuf);
++
++	/* if a tpgt was selected from an old record, write entry in new format */
++	if (tpgt != PORTAL_GROUP_TAG_UNKNOWN) {
++		log_warning("using tpgt %u from existing record", tpgt);
++		rec->tpgt = tpgt;
++		free(portal);
++		return idbm_rec_write_new(rec);
++	}
++
+ 	snprintf(portal, PATH_MAX, "%s/%s/%s,%d", NODE_CONFIG_DIR,
+ 		 rec->name, rec->conn[0].address, rec->conn[0].port);
+ 
+-- 
+1.8.1.4
+
