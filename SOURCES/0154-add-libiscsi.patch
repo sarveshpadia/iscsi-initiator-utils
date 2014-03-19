@@ -1,4 +1,4 @@
-From 38800fb6984ca4c3ad963708c47c1946c33b6d1a Mon Sep 17 00:00:00 2001
+From de47306137006436c6bc71a9a60c27287dd1a9e4 Mon Sep 17 00:00:00 2001
 From: Chris Leech <cleech@redhat.com>
 Date: Mon, 19 Nov 2012 16:43:15 -0800
 Subject: add libiscsi
@@ -43,7 +43,7 @@ Subject: add libiscsi
  create mode 100644 libiscsi/tests/test_set_auth.c
 
 diff --git a/Makefile b/Makefile
-index 0b7bb98..02346bf 100644
+index 93dcbbf..5e80db9 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -33,6 +33,7 @@ user: utils/open-isns/Makefile iscsiuio/Makefile
@@ -131,7 +131,7 @@ index 0000000..317a7ec
 +-include .depend ../usr/.depend
 diff --git a/libiscsi/libiscsi.c b/libiscsi/libiscsi.c
 new file mode 100644
-index 0000000..2a176e8
+index 0000000..6e6846a
 --- /dev/null
 +++ b/libiscsi/libiscsi.c
 @@ -0,0 +1,620 @@
@@ -3881,10 +3881,10 @@ index afce6c0..0c93749 100644
  int discovery_fw(void *data, struct iface_rec *iface,
  		 struct list_head *rec_list)
 diff --git a/usr/idbm.c b/usr/idbm.c
-index 4bb9810..c84ae69 100644
+index 81bce9e..bda31e2 100644
 --- a/usr/idbm.c
 +++ b/usr/idbm.c
-@@ -1515,9 +1515,9 @@ int idbm_print_all_discovery(int info_level)
+@@ -1709,9 +1709,9 @@ int idbm_print_all_discovery(int info_level)
   * fn should return -1 if it skipped the rec, a ISCSI_ERR error code if
   * the operation failed or 0 if fn was run successfully.
   */
@@ -3898,7 +3898,7 @@ index 4bb9810..c84ae69 100644
  	DIR *iface_dirfd;
  	struct dirent *iface_dent;
 diff --git a/usr/idbm.h b/usr/idbm.h
-index 1e9b132..4d08b31 100644
+index b89ddff..3631262 100644
 --- a/usr/idbm.h
 +++ b/usr/idbm.h
 @@ -102,6 +102,9 @@ struct rec_op_data {
@@ -3912,16 +3912,16 @@ index 1e9b132..4d08b31 100644
  				idbm_portal_op_fn *fn, char *targetname);
  extern int idbm_for_each_node(int *found, void *data,
 diff --git a/usr/iscsi_ipc.h b/usr/iscsi_ipc.h
-index b6665cb..3e7f82a 100644
+index 9d26d54..d23754d 100644
 --- a/usr/iscsi_ipc.h
 +++ b/usr/iscsi_ipc.h
-@@ -160,4 +160,6 @@ struct iscsi_ipc {
- 				      uint32_t host_no, uint32_t sid);
+@@ -165,4 +165,6 @@ struct iscsi_ipc {
+ 			 char *host_stats);
  };
  
 +struct iscsi_ipc *ipc;
 +
  #endif /* ISCSI_IPC_H */
 -- 
-1.8.1.4
+1.8.3.1
 

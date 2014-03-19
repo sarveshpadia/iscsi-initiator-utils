@@ -4,7 +4,7 @@
 Summary: iSCSI daemon and utility programs
 Name: iscsi-initiator-utils
 Version: 6.%{open_iscsi_version}.%{open_iscsi_build}
-Release: 16%{?dist}
+Release: 21%{?dist}
 Group: System Environment/Daemons
 License: GPLv2+
 URL: http://www.open-iscsi.org
@@ -41,36 +41,80 @@ Patch24: 0024-Fix-discovery-error-return-without-return-value.patch
 Patch25: 0025-iscsid-Fix-strlen-parameter.patch
 Patch26: 0026-iscsiuio-Change-socket-bind-to-use-the-same-struct-s.patch
 Patch27: 0027-Make-rescan-run-in-parallel.patch
+Patch28: 0028-iscsiadm-Correctly-check-for-invalid-hostno-and-flas.patch
+Patch29: 0029-iscsi-tools-Print-additional-session-info-for-flashn.patch
+Patch30: 0030-iscsi-tools-sync-iscsi_if.h-with-kernel-space.patch
+Patch31: 0031-PATCH-v5-1-3-ISCSISTART-Saved-ibft-boot-info-to-the-.patch
+Patch32: 0032-ISCSID-Added-the-extraction-of-the-session-boot-info.patch
+Patch33: 0033-ISCSID-Added-iface-content-override-fix.patch
+Patch34: 0034-iscsi-tools-Bug-fix-on-IPC-address-copy-version-2.patch
+Patch35: 0035-flashnode-Add-support-to-set-ISCSI_FLASHNODE_CHAP_OU.patch
+Patch36: 0036-iscsiadm-Use-x-option-instead-of-v-to-specify-chap_t.patch
+Patch37: 0037-iscsiadm-Man-page-changes-to-use-x-option-for-chap_t.patch
+Patch38: 0038-README-changes-to-use-long-option-index-instead-of-f.patch
+Patch39: 0039-iscsiadm-Add-support-to-set-CHAP-entry-using-host-ch.patch
+Patch40: 0040-iscsi-tools-Correctly-get-username_in-and-password_i.patch
+Patch41: 0041-README-changes-for-adding-support-to-set-CHAP-entry.patch
+Patch42: 0042-iscsi-tools-Setup-iface-conf-file-with-all-iface-att.patch
+Patch43: 0043-iscsi_if.h-Remove-numbers-used-for-network-parameter.patch
+Patch44: 0044-iscsi_if.h-Additional-parameters-for-network-param-s.patch
+Patch45: 0045-iscsi-tools-Use-macro-to-set-IPv4-IPv6-IP-addresses.patch
+Patch46: 0046-iscsi-tools-Use-single-function-to-enable-disable-ne.patch
+Patch47: 0047-iscsi-tools-Use-single-function-to-set-integer-netwo.patch
+Patch48: 0048-iscsi-tools-Ignore-network-parameter-if-not-enabled-.patch
+Patch49: 0049-iscsi-tools-Additional-parameters-for-network-settin.patch
+Patch50: 0050-iscsi-tools-iface-params-should-be-updated-for-node_.patch
+Patch51: 0051-iscsi-tools-Let-default-type-of-iface-be-ipv4.patch
+Patch52: 0052-iscsi-tools-Show-iface-params-based-on-iface-type.patch
+Patch53: 0053-iscsiadm-Added-document-for-description-of-iface-att.patch
+Patch54: 0054-iscsi_tool-Add-offload-host-statistics-support.patch
+Patch55: 0055-README-Updated-for-host-statistics.patch
+Patch56: 0056-iscsiadm.8-Updated-man-page-for-host-statistics.patch
+Patch57: 0057-iscsi-tools-Fix-the-iscsiadm-help-options-for-host-m.patch
+Patch58: 0058-Man-page-correction-for-host-mode-options-of-iscsiad.patch
+Patch59: 0059-ISCSIUIO-Added-tx-doorbell-override-mechanism.patch
+Patch60: 0060-ISCSIUIO-Added-fix-for-the-iface.subnet_mask-decodin.patch
+Patch61: 0061-ISCSIUIO-Added-fix-for-the-ARP-cache-flush-mechanism.patch
+Patch62: 0062-ISCSIUIO-Updated-RELEASE-note-and-version.patch
+Patch63: 0063-ISCSIUIO-Updated-the-configure-file-to-reflect-the-n.patch
+Patch64: 0064-ISCSIUIO-Removed-the-auto-generated-COPYING-file.patch
+Patch68: 0068-iscsiuio-fix-compilation.patch
+Patch69: 0069-Add-missing-DESTDIR.patch
+Patch70: 0070-iscsi-tools-set-non-negotiated-params-early.patch
+
 # not (yet) upstream merged
-Patch40: 0040-ISCSISTART-Saved-ibft-boot-info-to-the-session-sysfs.patch
-Patch41: 0041-ISCSID-Added-the-extraction-of-the-session-boot-info.patch
-Patch42: 0042-ISCSID-Added-iface-content-override-fix.patch
-Patch43: 0043-idmb_rec_write-check-for-tpgt-first.patch
-Patch45: 0045-idbm_rec_write-seperate-old-and-new-style-writes.patch
-Patch46: 0046-idbw_rec_write-pick-tpgt-from-existing-record.patch
-Patch47: 0047-iscsiuio-systemd-socket-activation-support.patch
-Patch49: 0049-update-systemd-service-files-add-iscsi.service-for-s.patch
-Patch50: 0050-iscsi-boot-related-service-file-updates.patch
+Patch131: 0131-iscsiadm-Fix-the-hostno-check-for-stats-submode-of-h.patch
+Patch132: 0132-iscsiadm-Fix-the-compile-time-warning.patch
+Patch143: 0143-idmb_rec_write-check-for-tpgt-first.patch
+Patch145: 0145-idbm_rec_write-seperate-old-and-new-style-writes.patch
+Patch146: 0146-idbw_rec_write-pick-tpgt-from-existing-record.patch
+Patch147: 0147-iscsiuio-systemd-socket-activation-support.patch
+Patch149: 0149-update-systemd-service-files-add-iscsi.service-for-s.patch
+Patch150: 0150-iscsi-boot-related-service-file-updates.patch
 # distro specific modifications
-Patch51: 0051-update-initscripts-and-docs.patch
-Patch52: 0052-use-var-for-config.patch
-Patch53: 0053-use-red-hat-for-name.patch
-Patch54: 0054-add-libiscsi.patch
-Patch55: 0055-dont-use-static.patch
-Patch56: 0056-remove-the-offload-boot-supported-ifdef.patch
-Patch59: 0059-iscsiuio-systemd-unit-files.patch
-Patch60: 0060-use-systemctl-to-start-iscsid.patch
-Patch61: 0061-resolve-565245-multilib-issues-caused-by-doxygen.patch
-Patch62: 0062-Don-t-check-for-autostart-sessions-if-iscsi-is-not-u.patch
-Patch63: 0063-fix-order-of-setting-uid-gid-and-drop-supplementary-.patch
-Patch64: 0064-libiscsi-fix-incorrect-strncpy-use.patch
-Patch65: 0065-fix-hardened-build-of-iscsiuio.patch
-Patch66: 0066-start-socket-listeners-on-iscsiadm-command.patch
+Patch151: 0151-update-initscripts-and-docs.patch
+Patch152: 0152-use-var-for-config.patch
+Patch153: 0153-use-red-hat-for-name.patch
+Patch154: 0154-add-libiscsi.patch
+Patch155: 0155-dont-use-static.patch
+Patch156: 0156-remove-the-offload-boot-supported-ifdef.patch
+Patch159: 0159-iscsiuio-systemd-unit-files.patch
+Patch160: 0160-use-systemctl-to-start-iscsid.patch
+Patch161: 0161-resolve-565245-multilib-issues-caused-by-doxygen.patch
+Patch162: 0162-Don-t-check-for-autostart-sessions-if-iscsi-is-not-u.patch
+Patch163: 0163-fix-order-of-setting-uid-gid-and-drop-supplementary-.patch
+Patch164: 0164-libiscsi-fix-incorrect-strncpy-use.patch
+Patch165: 0165-fix-hardened-build-of-iscsiuio.patch
+Patch166: 0166-start-socket-listeners-on-iscsiadm-command.patch
+Patch167: 0167-Revert-iscsiadm-return-error-when-login-fails.patch
+Patch168: 0168-update-handling-of-boot-sessions.patch
+Patch169: 0169-update-iscsi.service-for-boot-session-recovery.patch
 # version string, needs to be updated with each build
-Patch99: 0099-use-Red-Hat-version-string-to-match-RPM-package-vers.patch
+Patch199: 0199-use-Red-Hat-version-string-to-match-RPM-package-vers.patch
 
 BuildRequires: flex bison python-devel doxygen kmod-devel systemd-devel
 # For dir ownership
+Requires: %{name}-iscsiuio >= %{version}-%{release}
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -83,6 +127,16 @@ The iscsi package provides the server daemon for the iSCSI protocol,
 as well as the utility programs used to manage it. iSCSI is a protocol
 for distributed disk access using SCSI commands sent over Internet
 Protocol networks.
+
+%package iscsiuio
+Summary: Userspace configuration daemon required for some iSCSI hardware
+Group: System Environment/Daemons
+License: BSD
+Requires: %{name} = %{version}-%{release}
+
+%description iscsiuio
+The iscsiuio configuration daemon provides network configuration help
+for some iSCSI offload hardware.
 
 %package devel
 Summary: Development files for %{name}
@@ -123,33 +177,75 @@ developing applications that use %{name}.
 %patch25 -p1
 %patch26 -p1
 %patch27 -p1
-# pending upstream merge
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
+%patch31 -p1
+%patch32 -p1
+%patch33 -p1
+%patch34 -p1
+%patch35 -p1
+%patch36 -p1
+%patch37 -p1
+%patch38 -p1
+%patch39 -p1
 %patch40 -p1
 %patch41 -p1
 %patch42 -p1
 %patch43 -p1
+%patch44 -p1
 %patch45 -p1
 %patch46 -p1
 %patch47 -p1
+%patch48 -p1
 %patch49 -p1
 %patch50 -p1
-# distro specific modifications
 %patch51 -p1
 %patch52 -p1
 %patch53 -p1
 %patch54 -p1
 %patch55 -p1
 %patch56 -p1
+%patch57 -p1
+%patch58 -p1
 %patch59 -p1
 %patch60 -p1
 %patch61 -p1
 %patch62 -p1
 %patch63 -p1
 %patch64 -p1
-%patch65 -p1
-%patch66 -p1
+%patch68 -p1
+%patch69 -p1
+%patch70 -p1
+# pending upstream merge
+%patch131 -p1
+%patch132 -p1
+%patch143 -p1
+%patch145 -p1
+%patch146 -p1
+%patch147 -p1
+%patch149 -p1
+%patch150 -p1
+# distro specific modifications
+%patch151 -p1
+%patch152 -p1
+%patch153 -p1
+%patch154 -p1
+%patch155 -p1
+%patch156 -p1
+%patch159 -p1
+%patch160 -p1
+%patch161 -p1
+%patch162 -p1
+%patch163 -p1
+%patch164 -p1
+%patch165 -p1
+%patch166 -p1
+%patch167 -p1
+%patch168 -p1
+%patch169 -p1
 # version string
-%patch99 -p1
+%patch199 -p1
 
 # change exec_prefix, there's no easy way to override
 %{__sed} -i -e 's|^exec_prefix = /$|exec_prefix = %{_exec_prefix}|' Makefile
@@ -278,18 +374,28 @@ fi
 %{_unitdir}/iscsi.service
 %{_unitdir}/iscsid.service
 %{_unitdir}/iscsid.socket
-%{_unitdir}/iscsiuio.service
-%{_unitdir}/iscsiuio.socket
 %{_libexecdir}/iscsi-mark-root-nodes
 %{_sysconfdir}/NetworkManager/dispatcher.d/04-iscsi
 %{_tmpfilesdir}/iscsi.conf
 %dir %{_sysconfdir}/iscsi
 %attr(0600,root,root) %config(noreplace) %{_sysconfdir}/iscsi/iscsid.conf
-%{_sbindir}/*
+%{_sbindir}/iscsi-iname
+%{_sbindir}/iscsiadm
+%{_sbindir}/iscsid
+%{_sbindir}/iscsistart
 %{_libdir}/libiscsi.so.0
 %{python_sitearch}/libiscsimodule.so
-%{_mandir}/man8/*
+%{_mandir}/man8/iscsi-iname.8.gz
+%{_mandir}/man8/iscsiadm.8.gz
+%{_mandir}/man8/iscsid.8.gz
+%{_mandir}/man8/iscsistart.8.gz
+
+%files iscsiuio
+%{_sbindir}/iscsiuio
+%{_unitdir}/iscsiuio.service
+%{_unitdir}/iscsiuio.socket
 %config(noreplace) %{_sysconfdir}/logrotate.d/iscsiuiolog
+%{_mandir}/man8/iscsiuio.8.gz
 
 %files devel
 %doc libiscsi/html
@@ -297,6 +403,38 @@ fi
 %{_includedir}/libiscsi.h
 
 %changelog
+* Tue Mar 18 2014 Chris Leech <cleech@redhat.com> - 6.2.0.873-21
+- 1069825
+- boot session handling improvements
+- Fix iscsi-mark-root for changed iscsiadm output
+- Make sure iscsiuio is running for boot session recovery when using the
+  bnx2i transport by forcing iscsiuio.service start
+- Make NM dispatch triggered re-check for autostart sessions async
+- Accept exit code 21, no records, from iscsiadm as success in
+  iscsi.service
+
+* Tue Feb 25 2014 Chris Leech <cleech@redhat.com> - 6.2.0.873-20
+- 1049710 host0 being treated as an invalid in the host stats command
+- 1015563 revert change to return code when calling login_portal for sessions
+  that already exist, as it impacts users scripting around iscsiadm
+
+* Mon Feb 17 2014 Chris Leech <cleech@redhat.com> - 6.2.0.873-19
+- 1007388 fixes for iscsiadm to support qla4xxx
+- refresh boot session info patches to final version from upstream,
+  fixes context issues with later patches
+- 1006156, 1006161 Add/Update entries in chap table through Open-iSCSI
+- 948134 extend support to set additional parameters for network configuration
+- 1049710 update open-iscsi to support host statistics
+- 1043019 iscsiuio fix for arp cache flush issue
+- 1059332 Fix broken discovery sessions over iser
+- 1017393 split out iscsiuio into a seperate sub-package
+
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 6.2.0.873-18
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 6.2.0.873-17
+- Mass rebuild 2013-12-27
+
 * Mon Nov 25 2013 Chris Leech <cleech@redhat.com> - 6.2.0.873-16
 - fix iscsiuio socket activation
 - have systemd start socket units on iscsiadm use, if not already listening

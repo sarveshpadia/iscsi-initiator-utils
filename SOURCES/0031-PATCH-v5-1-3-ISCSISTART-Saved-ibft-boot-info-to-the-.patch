@@ -1,26 +1,29 @@
-From 68ef07c23f7c0d1ea6b502c28be1152e77ff1bde Mon Sep 17 00:00:00 2001
-From: Eddie Wai <eddie.wai@broadcom.com>
-Date: Fri, 12 Apr 2013 10:41:15 -0700
-Subject: ISCSISTART: Saved ibft boot info to the session sysfs
+From 5992173f13550d75659fec1d7e1f6e87895d560a Mon Sep 17 00:00:00 2001
+From: Mike Christie <michaelc@cs.wisc.edu>
+Date: Wed, 11 Sep 2013 23:59:31 -0700
+Subject: [PATCH] [PATCH v5 1/3] ISCSISTART: Saved ibft boot info to the
+ session
+
+Patch and description from Eddie Wai:
 
 Three new session sysfs parameters are introduced:
 boot_root   - holds the ibft boot root folder name
 boot_nic    - holds the ibft boot ethernetN name
 boot_target - holds the ibft boot targetN name
 
-This patch copies over the /sys/firmware/<boot_root>/ethernetN/targetN info
+This patch copies over the /sys/firmware/<boot_root>/ethernetN/targetN
+info
 from the boot context to the node_rec.
 
 Signed-off-by: Eddie Wai <eddie.wai@broadcom.com>
 ---
  include/fw_context.h               |  3 +++
- include/iscsi_if.h                 |  4 ++++
  include/iscsi_proto.h              |  1 +
  usr/config.h                       |  3 +++
  usr/idbm.c                         |  6 ++++++
  usr/initiator_common.c             | 14 +++++++++++++-
  utils/fwparam_ibft/fwparam_sysfs.c |  8 ++++++++
- 7 files changed, 38 insertions(+), 1 deletion(-)
+ 6 files changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/include/fw_context.h b/include/fw_context.h
 index 1640859..6563d68 100644
@@ -36,21 +39,6 @@ index 1640859..6563d68 100644
  
  	/* target settings */
  	int target_port;
-diff --git a/include/iscsi_if.h b/include/iscsi_if.h
-index 20f2bc2..b47dde7 100644
---- a/include/iscsi_if.h
-+++ b/include/iscsi_if.h
-@@ -495,6 +495,10 @@ enum iscsi_param {
- 
- 	ISCSI_PARAM_TGT_RESET_TMO,
- 	ISCSI_PARAM_TARGET_ALIAS,
-+
-+	ISCSI_PARAM_BOOT_ROOT,
-+	ISCSI_PARAM_BOOT_NIC,
-+	ISCSI_PARAM_BOOT_TARGET,
- 	/* must always be last */
- 	ISCSI_PARAM_MAX,
- };
 diff --git a/include/iscsi_proto.h b/include/iscsi_proto.h
 index 1c69feb..56f757b 100644
 --- a/include/iscsi_proto.h
@@ -95,11 +83,11 @@ index bc06058..1e4f8c8 100644
  	iface_setup_from_boot_context(&rec->iface, context);
  
 diff --git a/usr/initiator_common.c b/usr/initiator_common.c
-index eb72795..544d637 100644
+index 0fb7edc..e2e87a1 100644
 --- a/usr/initiator_common.c
 +++ b/usr/initiator_common.c
-@@ -324,7 +324,7 @@ int iscsi_host_set_params(struct iscsi_session *session)
- 	return 0;
+@@ -345,7 +345,7 @@ void iscsi_session_init_params(struct iscsi_session *session)
+ 	}
  }
  
 -#define MAX_SESSION_PARAMS 32
@@ -107,7 +95,7 @@ index eb72795..544d637 100644
  
  int iscsi_session_set_params(struct iscsi_conn *conn)
  {
-@@ -496,6 +496,18 @@ int iscsi_session_set_params(struct iscsi_conn *conn)
+@@ -516,6 +516,18 @@ int iscsi_session_set_params(struct iscsi_conn *conn)
  			.param = ISCSI_PARAM_INITIATOR_NAME,
  			.value = session->initiator_name,
  			.type = ISCSI_STRING,
@@ -160,5 +148,5 @@ index 3997363..2f37b59 100644
  	 * We can live without the rest of they do not exist. If we
  	 * failed to get them we will figure it out when we login.
 -- 
-1.8.1.4
+1.8.3.1
 

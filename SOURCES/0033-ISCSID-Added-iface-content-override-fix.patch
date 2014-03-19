@@ -1,7 +1,7 @@
-From ec7d79ed691619b6ffa8c25f162ce62e1e25e6c1 Mon Sep 17 00:00:00 2001
+From 3b4b45001b6d8412aad76a55347de42d30d694f7 Mon Sep 17 00:00:00 2001
 From: Eddie Wai <eddie.wai@broadcom.com>
-Date: Fri, 12 Apr 2013 10:41:17 -0700
-Subject: ISCSID: Added iface content override fix
+Date: Fri, 23 Aug 2013 14:04:12 -0700
+Subject: [PATCH] ISCSID: Added iface content override fix
 
 Patch provided by Mike Christie.
 
@@ -53,5 +53,5 @@ index 8f19220..d1756ef 100644
  
  	/* multiple drivers could be connected to the same portal */
 -- 
-1.8.1.4
+1.8.3.1
 
